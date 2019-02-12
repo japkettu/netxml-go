@@ -1,23 +1,29 @@
 package netxml
 
 import (
-	//"fmt"
+	"fmt"
 	"github.com/jonas-p/go-shp"
 	"log"
 )
 
-// Creates shapefile for wireless networks
-//func nwWrite(network *WirelessNetwork, index int) {}
-func WriteSHP(root *Root, file string) (count uint32) {
+func WriteNetworkSHP(root *Root, file string) (count uint32) {
 
 	count = 0
-
 	shape, err := shp.Create(file, shp.POINT)
 	if err != nil {
 		log.Println(err)
 		return
 	}
 	defer shape.Close()
+
+	fields := []shp.Field{
+		shp.StringField("BSSID", 32),
+		shp.StringField("SSID", 32),
+		shp.NumberField("Packets", 32),
+		shp.StringField("WPS", 32),
+	}
+	// Can't write Packets
+	shape.SetFields(fields)
 
 	networks := root.WirelessNetworks
 
@@ -30,16 +36,6 @@ func WriteSHP(root *Root, file string) (count uint32) {
 			continue
 		}
 
-		fields := []shp.Field{
-			shp.StringField("BSSID", 32),
-			shp.StringField("SSID", 32),
-			shp.NumberField("Packets", 32),
-			shp.StringField("WPS", 32),
-		}
-		// Jostain syystä packets osio jää tyhjäksi
-		// Johtuu varmaan määritetystä koosta
-		shape.SetFields(fields)
-
 		point := shp.Point{lon, lat}
 		shape.Write(&point)
 		shape.WriteAttribute(index, 0, network.BSSID)
@@ -47,6 +43,45 @@ func WriteSHP(root *Root, file string) (count uint32) {
 		shape.WriteAttribute(index, 2, network.SSID.Packets)
 		shape.WriteAttribute(index, 3, network.SSID.Wps)
 		count += 1
+	}
+	return
+}
+
+func WriteClientSHP(root *Root, file string) (count uint32) {
+
+	count = 0
+	shape, err := shp.Create(file, shp.POINT)
+	if err != nil {
+		log.Fatal(err)
+		return
+	}
+	defer shape.Close()
+	fields := []shp.Field{
+		shp.StringField("Mac", 32),
+		shp.StringField("BSSID", 32),
+		shp.StringField("SSID", 32),
+	}
+
+	networks := root.WirelessNetworks
+	shape.SetFields(fields)
+	for _, network := range networks {
+
+		//clientCount := len(network.WirelessClients)
+
+		for _, client := range network.WirelessClients {
+			if client.GPS.Lat == 0 || client.GPS.Lon == 0 || client.Mac == network.BSSID {
+				continue
+			}
+			fmt.Println(count, client.Mac, network.BSSID)
+			point := shp.Point{client.GPS.Lon, client.GPS.Lat}
+			shape.Write(&point)
+			shape.WriteAttribute(int(count), 0, client.Mac)
+			shape.WriteAttribute(int(count), 1, network.BSSID)
+			shape.WriteAttribute(int(count), 2, network.SSID.Essid)
+			count += 1
+
+		}
+
 	}
 	return
 }

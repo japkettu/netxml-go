@@ -22,6 +22,11 @@ func main() {
 	root := netxml.Parse(data)
 	netxml.Print(root)
 	netxml.FileInfo(root)
-	count := netxml.WriteSHP(root, shapeout)
+	count := netxml.WriteNetworkSHP(root, shapeout)
 	fmt.Printf("Shapefile: %d\n", count)
+
+	clientFile := "./output/clients.shp"
+	clientCount := netxml.WriteClientSHP(root, clientFile)
+	fmt.Printf("Clients written to shapefile: %d\n", clientCount)
+
 }

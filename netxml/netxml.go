@@ -13,6 +13,7 @@ import (
 ToDo:
 - add encryption information
 - add year to bsstimestamp
+- add timestamp information
 */
 
 func Parse(data []byte) *Root {
