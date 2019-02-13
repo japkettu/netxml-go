@@ -13,8 +13,8 @@ func main() {
 	file := flag.String("f", "", "File or path name")
 	fPrint := flag.Bool("p", false, "Print network information and clients")
 	fInfo := flag.Bool("i", false, "Print netxml info")
-	clientSHP := flag.String("cs", "clients.shp", "Write clients to shapefile")
-	nwSHP := flag.String("ns", "networks.shp", "Write networks to shapefile")
+	clientSHP := flag.String("cs", "", "Write clients to shapefile")
+	nwSHP := flag.String("ns", "", "Write networks to shapefile")
 	flag.Parse()
 
 	data, err := ioutil.ReadFile(*file)
