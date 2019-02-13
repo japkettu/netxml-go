@@ -11,22 +11,24 @@ import (
 func main() {
 
 	file := flag.String("f", "", "File or path name")
+	clientSHP := flag.String("cs", "", "Client shapefile")
+	nwSHP := flag.String("ns", "", "Network shapefile")
 	flag.Parse()
 
 	data, err := ioutil.ReadFile(*file)
 	if err != nil {
 		log.Fatal(err)
 	}
-	shapeout := "./output/networks.shp"
-	fmt.Printf("File: %s\n", *file)
 	root := netxml.Parse(data)
 	netxml.Print(root)
 	netxml.FileInfo(root)
-	count := netxml.WriteNetworkSHP(root, shapeout)
-	fmt.Printf("Shapefile: %d\n", count)
-
-	clientFile := "./output/clients.shp"
-	clientCount := netxml.WriteClientSHP(root, clientFile)
-	fmt.Printf("Clients written to shapefile: %d\n", clientCount)
-
+	fmt.Printf("File: %s\n", *file)
+	if *nwSHP != "" {
+		count := netxml.WriteNetworkSHP(root, *nwSHP)
+		fmt.Printf("Networks written to shapefile: %d\n", count)
+	}
+	if *clientSHP != "" {
+		clientCount := netxml.WriteClientSHP(root, *clientSHP)
+		fmt.Printf("Clients written to shapefile: %d\n", clientCount)
+	}
 }

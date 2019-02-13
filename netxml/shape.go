@@ -1,7 +1,7 @@
 package netxml
 
 import (
-	"fmt"
+	//"fmt"
 	"github.com/jonas-p/go-shp"
 	"log"
 )
@@ -72,7 +72,6 @@ func WriteClientSHP(root *Root, file string) (count uint32) {
 			if client.GPS.Lat == 0 || client.GPS.Lon == 0 || client.Mac == network.BSSID {
 				continue
 			}
-			fmt.Println(count, client.Mac, network.BSSID)
 			point := shp.Point{client.GPS.Lon, client.GPS.Lat}
 			shape.Write(&point)
 			shape.WriteAttribute(int(count), 0, client.Mac)
