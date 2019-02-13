@@ -66,8 +66,6 @@ func WriteClientSHP(root *Root, file string) (count uint32) {
 	shape.SetFields(fields)
 	for _, network := range networks {
 
-		//clientCount := len(network.WirelessClients)
-
 		for _, client := range network.WirelessClients {
 			if client.GPS.Lat == 0 || client.GPS.Lon == 0 || client.Mac == network.BSSID {
 				continue
