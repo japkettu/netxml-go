@@ -11,8 +11,10 @@ import (
 func main() {
 
 	file := flag.String("f", "", "File or path name")
-	clientSHP := flag.String("cs", "", "Client shapefile")
-	nwSHP := flag.String("ns", "", "Network shapefile")
+	fPrint := flag.Bool("p", false, "Print network information and clients")
+	fInfo := flag.Bool("i", false, "Print netxml info")
+	clientSHP := flag.String("cs", "clients.shp", "Write clients to shapefile")
+	nwSHP := flag.String("ns", "networks.shp", "Write networks to shapefile")
 	flag.Parse()
 
 	data, err := ioutil.ReadFile(*file)
@@ -20,9 +22,13 @@ func main() {
 		log.Fatal(err)
 	}
 	root := netxml.Parse(data)
-	netxml.Print(root)
-	netxml.FileInfo(root)
 	fmt.Printf("File: %s\n", *file)
+	if *fPrint {
+		netxml.Print(root)
+	}
+	if *fInfo {
+		netxml.FileInfo(root)
+	}
 	if *nwSHP != "" {
 		count := netxml.WriteNetworkSHP(root, *nwSHP)
 		fmt.Printf("Networks written to shapefile: %d\n", count)

@@ -2,3 +2,6 @@ main
 testFiles/
 _examples/
 output/
+*.dbf
+*.shp
+*.shx

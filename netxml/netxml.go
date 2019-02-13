@@ -34,7 +34,8 @@ func FileInfo(root *Root) {
 
 	cs := root.CardSource
 	nw := root.WirelessNetworks
-	fmt.Printf("Interface: %s\nPackets: %d\nNetworks: %d\n", cs.Interface, cs.Packets, len(nw))
+	fmt.Printf("Interface: %s\nPackets: %d\nNetworks: %d\n",
+		cs.Interface, cs.Packets, len(nw))
 }
 
 func printNetwork(network *WirelessNetwork) {
@@ -75,7 +76,5 @@ func Print(root *Root) {
 		printClients(network.WirelessClients, &totalClients)
 
 	}
-
 	fmt.Printf("Networks:%d \nClients:%d\n", len(networks), totalClients)
-
 }
