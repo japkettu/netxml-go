@@ -18,6 +18,7 @@ type CardSource struct {
 	Packets   int      `xml:"card-packets"`
 	Channels  string   `xml:"card-channels"`
 }
+
 type SeenCard struct {
 	XMLName xml.Name `xml:"seen-card"`
 	Time    string   `xml:"seen-time"`
@@ -43,6 +44,7 @@ type SNR struct {
 	MinDBM  int8     `xml:"min_signal_dbm"`
 	MaxDBM  int8     `xml:"max_signal_dbm"`
 }
+
 type GPS struct {
 	XMLName xml.Name `xml:"gps-info"`
 	Lat     float64  `xml:"avg-lat"`
@@ -57,6 +59,7 @@ type SSID struct {
 	Essid   string   `xml:"essid"`
 	Wps     string   `xml:"wps"`
 }
+
 type Packets struct {
 	XMLName   xml.Name `xml:"packets"`
 	LLC       uint32   `xml:"LLC"`
@@ -66,6 +69,7 @@ type Packets struct {
 	Fragments uint32   `xml:"fragments"`
 	Retries   uint32   `xml:"retries"`
 }
+
 type WirelessClient struct {
 	XMLName  xml.Name `xml:"wireless-client"`
 	Mac      string   `xml:"client-mac"`
