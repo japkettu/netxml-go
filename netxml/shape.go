@@ -24,7 +24,6 @@ func WriteNetworkSHP(root *Root, file string) (count uint32) {
 	}
 	// Can't write Packets
 	shape.SetFields(fields)
-
 	networks := root.WirelessNetworks
 
 	for index, network := range networks {
