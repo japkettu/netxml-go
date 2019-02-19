@@ -10,8 +10,8 @@ import (
 
 func main() {
 
-	file := flag.String("f", "", "File or path name")
-	fPrint := flag.Bool("p", false, "Print network information and clients")
+	file := flag.String("f", "", "Kismet netxml file")
+	fPrint := flag.Bool("p", false, "Print network information and connected clients")
 	fInfo := flag.Bool("i", false, "Print netxml info")
 	clientSHP := flag.String("cs", "", "Write clients to shapefile")
 	nwSHP := flag.String("ns", "", "Write networks to shapefile")

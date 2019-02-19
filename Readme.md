@@ -10,7 +10,7 @@ Available file formats:
 ## Usage:
 
 ```sh
-$ ./main -h
+$ ./netxml-go -h
 Usage of ./main:
   -cs string
     	Write clients to shapefile
@@ -27,7 +27,7 @@ Usage of ./main:
 Create shapefiles for networks and clients. Print file information.
 
 ```sh
-$ ./main -f path/to/Kismet.netxml -cs path/to/clients.shp -ns path/to/networks.shp -i
+$ ./netxml-go -f path/to/Kismet.netxml -cs path/to/clients.shp -ns path/to/networks.shp -i
 File: path/to/Kismet.netxml
 Interface: wlan0mon
 Packets: 117775
