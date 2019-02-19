@@ -41,7 +41,10 @@ Clients written to shapefile: 665
 ## Installation:
 
 ```sh
+$ go get golang.org/x/net/html/charset
+$ go get github.com/jonas-p/go-shp
 $ git clone https://github.com/japkettu/netxml-go
+$ cd netxml-go
 $ go build netxml-go.go
 ```
 
