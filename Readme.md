@@ -42,7 +42,7 @@ Clients written to shapefile: 665
 
 ```sh
 $ git clone https://github.com/japkettu/netxml-go
-$ go build main.go
+$ go build netxml-go.go
 ```
 
 
