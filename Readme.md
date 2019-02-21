@@ -15,7 +15,7 @@ Usage of ./main:
   -cs string
     	Write clients to shapefile
   -f string
-    	File or path name
+      Kismet netxml file
   -i	Print netxml info
   -ns string
     	Write networks to shapefile
@@ -43,8 +43,8 @@ Clients written to shapefile: 665
 ```sh
 $ go get golang.org/x/net/html/charset
 $ go get github.com/jonas-p/go-shp
-$ git clone https://github.com/japkettu/netxml-go
-$ cd netxml-go
+$ go get github.com/japkettu/netxml-go
+$ cd ~/go/src/github.com/japkettu/netxml-go
 $ go build netxml-go.go
 ```
 
