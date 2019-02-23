@@ -28,7 +28,7 @@ type WirelessNetwork struct {
 	XMLName         xml.Name         `xml:"wireless-network"`
 	BSSID           string           `xml:"BSSID"`
 	Manuf           string           `xml:"manuf"`
-	Channel         uint8            `xml:"channel"`
+	Channel         int              `xml:"channel"`
 	Bsstimestamp    string           `xml:"bsstimestamp"`
 	WirelessClients []WirelessClient `xml:"wireless-client"`
 	SSID            SSID
@@ -40,9 +40,9 @@ type WirelessNetwork struct {
 
 type SNR struct {
 	XMLName xml.Name `xml:"snr-info"`
-	LastDBM int8     `xml:"last_signal_dbm"`
-	MinDBM  int8     `xml:"min_signal_dbm"`
-	MaxDBM  int8     `xml:"max_signal_dbm"`
+	LastDBM int      `xml:"last_signal_dbm"`
+	MinDBM  int      `xml:"min_signal_dbm"`
+	MaxDBM  int      `xml:"max_signal_dbm"`
 }
 
 type GPS struct {
@@ -55,19 +55,19 @@ type GPS struct {
 type SSID struct {
 	XMLName xml.Name `xml:"SSID"`
 	Type    string   `xml:"type"`
-	Packets uint32   `xml:"packets"`
+	Packets int      `xml:"packets"`
 	Essid   string   `xml:"essid"`
 	Wps     string   `xml:"wps"`
 }
 
 type Packets struct {
 	XMLName   xml.Name `xml:"packets"`
-	LLC       uint32   `xml:"LLC"`
-	Data      uint32   `xml:"data"`
-	Crypt     uint32   `xml:"crypt"`
-	Total     uint32   `xml:"total"`
-	Fragments uint32   `xml:"fragments"`
-	Retries   uint32   `xml:"retries"`
+	LLC       int      `xml:"LLC"`
+	Data      int      `xml:"data"`
+	Crypt     int      `xml:"crypt"`
+	Total     int      `xml:"total"`
+	Fragments int      `xml:"fragments"`
+	Retries   int      `xml:"retries"`
 }
 
 type WirelessClient struct {

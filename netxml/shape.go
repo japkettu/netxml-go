@@ -1,7 +1,6 @@
 package netxml
 
 import (
-	//"fmt"
 	"github.com/jonas-p/go-shp"
 	"log"
 )
@@ -19,14 +18,16 @@ func WriteNetworkSHP(root *Root, file string) (count uint32) {
 	fields := []shp.Field{
 		shp.StringField("BSSID", 32),
 		shp.StringField("SSID", 32),
-		shp.NumberField("Packets", 32),
+		shp.NumberField("Packets", 10),
 		shp.StringField("WPS", 32),
+		shp.NumberField("Channel", 10),
+		shp.StringField("Time", 24),
 	}
-	// Can't write Packets
+
 	shape.SetFields(fields)
 	networks := root.WirelessNetworks
 
-	for index, network := range networks {
+	for _, network := range networks {
 		lat := network.GPS.Lat
 		lon := network.GPS.Lon
 
@@ -37,10 +38,15 @@ func WriteNetworkSHP(root *Root, file string) (count uint32) {
 
 		point := shp.Point{lon, lat}
 		shape.Write(&point)
-		shape.WriteAttribute(index, 0, network.BSSID)
-		shape.WriteAttribute(index, 1, network.SSID.Essid)
-		shape.WriteAttribute(index, 2, network.SSID.Packets)
-		shape.WriteAttribute(index, 3, network.SSID.Wps)
+		shape.WriteAttribute(int(count), 0, network.BSSID)
+		shape.WriteAttribute(int(count), 1, network.SSID.Essid)
+		err := shape.WriteAttribute(int(count), 2, network.SSID.Packets)
+		if err != nil {
+			log.Println(err)
+		}
+		shape.WriteAttribute(int(count), 3, network.SSID.Wps)
+		shape.WriteAttribute(int(count), 4, network.Channel)
+		shape.WriteAttribute(int(count), 5, network.SeenCard.Time)
 		count += 1
 	}
 	return
@@ -59,6 +65,8 @@ func WriteClientSHP(root *Root, file string) (count uint32) {
 		shp.StringField("Mac", 32),
 		shp.StringField("BSSID", 32),
 		shp.StringField("SSID", 32),
+		shp.NumberField("Packets", 10),
+		shp.StringField("Time", 24),
 	}
 
 	networks := root.WirelessNetworks
@@ -74,6 +82,8 @@ func WriteClientSHP(root *Root, file string) (count uint32) {
 			shape.WriteAttribute(int(count), 0, client.Mac)
 			shape.WriteAttribute(int(count), 1, network.BSSID)
 			shape.WriteAttribute(int(count), 2, network.SSID.Essid)
+			shape.WriteAttribute(int(count), 3, client.Packets.Total)
+			shape.WriteAttribute(int(count), 4, client.SeenCard.Time)
 			count += 1
 
 		}
