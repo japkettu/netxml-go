@@ -22,6 +22,7 @@ func WriteNetworkSHP(root *Root, file string) (count uint32) {
 		shp.StringField("WPS", 32),
 		shp.NumberField("Channel", 10),
 		shp.StringField("Time", 24),
+		shp.StringField("Encryption", 32),
 	}
 
 	shape.SetFields(fields)
@@ -47,6 +48,7 @@ func WriteNetworkSHP(root *Root, file string) (count uint32) {
 		shape.WriteAttribute(int(count), 3, network.SSID.Wps)
 		shape.WriteAttribute(int(count), 4, network.Channel)
 		shape.WriteAttribute(int(count), 5, network.SeenCard.Time)
+		shape.WriteAttribute(int(count), 6, getEnc(&network))
 		count += 1
 	}
 	return

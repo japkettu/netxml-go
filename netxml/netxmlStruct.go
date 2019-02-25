@@ -54,12 +54,13 @@ type GPS struct {
 
 type SSID struct {
 	XMLName xml.Name `xml:"SSID"`
-	Type    string   `xml:"type"`
-	Packets int      `xml:"packets"`
-	Essid   string   `xml:"essid"`
-	Wps     string   `xml:"wps"`
+	//FirstTime   string   `xml:"first-time, attr"`
+	Type        string   `xml:"type"`
+	Packets     int      `xml:"packets"`
+	Essid       string   `xml:"essid"`
+	Wps         string   `xml:"wps"`
+	Encryptions []string `xml:"encryption"`
 }
-
 type Packets struct {
 	XMLName   xml.Name `xml:"packets"`
 	LLC       int      `xml:"LLC"`

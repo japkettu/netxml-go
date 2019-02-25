@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"golang.org/x/net/html/charset"
 	"log"
+	"strings"
 )
 
 /*
@@ -38,19 +39,26 @@ func FileInfo(root *Root) {
 		cs.Interface, cs.Packets, len(nw))
 }
 
+func getEnc(network *WirelessNetwork) string {
+
+	return strings.Join(network.SSID.Encryptions, ",")
+}
+
 func printNetwork(network *WirelessNetwork) {
 
 	BSSID := network.BSSID
 	ESSID := network.SSID.Essid
 	Wps := network.SSID.Wps
+	//firstTime := network.SSID.FirstTime
 	bsstimestamp := network.Bsstimestamp
 	lat := network.GPS.Lat
 	lon := network.GPS.Lon
-	time := network.SeenCard.Time
+	enc := getEnc(network)
+	fmt.Printf("%-20s %-35s [%f, %f] WPS:%-15s bssts: %s  Enc: %s \n",
+		BSSID, ESSID, lat, lon, Wps, bsstimestamp, enc)
 
-	fmt.Printf("%-20s %-35s [%f, %f] WPS:%-15s bssts: %s  Time: %s \n",
-		BSSID, ESSID, lat, lon, Wps, bsstimestamp, time)
 }
+
 func printClients(clients []WirelessClient, totalClients *int) {
 
 	nwClients := len(clients) - 1 // filter only clients connected to network
