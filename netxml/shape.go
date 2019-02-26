@@ -5,10 +5,23 @@ import (
 	"log"
 )
 
+var (
+	err   error
+	count uint32
+	shape *shp.Writer
+)
+
+func writeAttr(shape *shp.Writer, count *uint32, t []interface{}) {
+	for i, el := range t {
+		shape.WriteAttribute(int(*count), i, el)
+	}
+	*count += 1
+}
+
 func WriteNetworkSHP(root *Root, file string) (count uint32) {
 
 	count = 0
-	shape, err := shp.Create(file, shp.POINT)
+	shape, err = shp.Create(file, shp.POINT)
 	if err != nil {
 		log.Println(err)
 		return
@@ -39,17 +52,14 @@ func WriteNetworkSHP(root *Root, file string) (count uint32) {
 
 		point := shp.Point{lon, lat}
 		shape.Write(&point)
-		shape.WriteAttribute(int(count), 0, network.BSSID)
-		shape.WriteAttribute(int(count), 1, network.SSID.Essid)
-		err := shape.WriteAttribute(int(count), 2, network.SSID.Packets)
-		if err != nil {
-			log.Println(err)
-		}
-		shape.WriteAttribute(int(count), 3, network.SSID.Wps)
-		shape.WriteAttribute(int(count), 4, network.Channel)
-		shape.WriteAttribute(int(count), 5, network.SeenCard.Time)
-		shape.WriteAttribute(int(count), 6, getEnc(&network))
-		count += 1
+		encryption := getEnc(&network)
+
+		t := []interface{}{network.BSSID, network.SSID.Essid, network.SSID.Packets,
+			network.SSID.Wps, network.Channel,
+			network.SeenCard.Time, encryption}
+
+		writeAttr(shape, &count, t)
+
 	}
 	return
 }
@@ -81,15 +91,12 @@ func WriteClientSHP(root *Root, file string) (count uint32) {
 			}
 			point := shp.Point{client.GPS.Lon, client.GPS.Lat}
 			shape.Write(&point)
-			shape.WriteAttribute(int(count), 0, client.Mac)
-			shape.WriteAttribute(int(count), 1, network.BSSID)
-			shape.WriteAttribute(int(count), 2, network.SSID.Essid)
-			shape.WriteAttribute(int(count), 3, client.Packets.Total)
-			shape.WriteAttribute(int(count), 4, client.SeenCard.Time)
-			count += 1
 
+			t := []interface{}{client.Mac, network.BSSID, network.SSID.Essid,
+				client.Packets.Total, client.SeenCard.Time}
+
+			writeAttr(shape, &count, t)
 		}
-
 	}
 	return
 }
